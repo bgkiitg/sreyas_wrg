@@ -3,7 +3,7 @@ from sage.misc.viewer import viewer
 # Wheel edges with centre as 1 and 2-6 on the rim.
 wheel_edges=[(1,2),(1,3),(1,4),(1,5),(1,6),(2,3),(3,4),(4,5),(5,6),(6,2)]
 tetra_edges=[(1,2),(1,3),(1,4),(2,3),(3,4),(4,2),(5,2),(5,3),(6,2),(6,4),(7,3),(7,4)]
-triangle_edges=[(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(2,3),(3,4),(4,2),(2,5),(5,3),(3,6),(6,4),(4,7),( 7,2)]
+triangle_edges=[(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(2,5),(3,6),(4,7),(5,6),(6,7),(7,5)]
 square_edges=[(1,2),(2,3),(3,4),(4,1),(1,5),(1,6),(1,7),(5,6),(6,7),(6,4),(7,4),(6,3),(2,4)]
 
 non_wrg_seven = []
@@ -28,7 +28,7 @@ for i in range(26):
 non_wrg_seven[1].add_edges([(1,7)])
 non_wrg_seven[2].add_edges([(2,7)])
 
-non_wrg_seven[2].add_edges([(1,7),(2,7)])
+non_wrg_seven[3].add_edges([(1,7),(2,7)])
 non_wrg_seven[4].add_edges([(2,7),(3,7)])
 non_wrg_seven[5].add_edges([(2,7),(4,7)])
 
@@ -46,7 +46,7 @@ non_wrg_seven[14].add_edges([(2,7),(3,7),(4,7),(5,7),(6,7)])
 
 non_wrg_seven[15].add_edges([(1,7),(2,7),(3,7),(4,7),(5,7),(6,7)])
 
-non_wrg_seven[16].add_edges([(1,7),(2,7),(3,7),(4,7),(5,7),(6,7)])
+non_wrg_seven[16].add_edges([(1,7),(2,7),(3,7),(4,7),(5,7),(2,5)])
 non_wrg_seven[17].add_edges([(1,7),(2,7),(3,7),(5,7),(4,6)])
 
 non_wrg_seven[18].add_edges([(2,7),(3,7),(4,7),(5,7)])
@@ -88,12 +88,6 @@ def generate_subsets(nums):
 
     return subsets
 
-
-# Example usage
-numbers = [1, 2, 3]
-all_subsets = generate_subsets(numbers)
-print(all_subsets)
-
 edge_list=[]
 for i in range(7):
     edge_list.append((i+1,8))    
@@ -110,16 +104,6 @@ for i in range(26):
         all_graphs.append(G)
 
 
-edge_filter =[]
-
-for i in all_graphs:
-    deg_seq =i.degree_sequence()
-    tot_deg=sum(deg_seq)
-    number_of_edges =tot_deg/2
-    max=deg_seq[0]
-    min=deg_seq[7]
-    if(number_of_edges-min <17  and number_of_edges-max>10):
-        edge_filter.append(i)
 
 trouble_makers =[]
 proof_list =[]
@@ -135,7 +119,7 @@ for G in all_graphs:
             if H.is_isomorphic(J):
                 count += 1
         if count == 0:
-            if is_bad == True:
+            if is_bad==True:
                 proof_list.append((G,H))
             is_bad = False
     if is_bad:
