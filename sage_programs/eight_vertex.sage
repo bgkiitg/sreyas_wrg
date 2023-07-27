@@ -9,7 +9,7 @@ square_edges=[(1,2),(2,3),(3,4),(4,1),(1,5),(1,6),(1,7),(5,6),(6,7),(6,4),(7,4),
 non_wrg_seven = []
 for i in range(26):
     G= Graph()
-    G.add_vertices([1,2,3,4,5,6,7,8])
+    G.add_vertices([1,2,3,4,5,6,7])
     #The first 21 have W5 as a subgraph. The first 16 has W5 as an induced subgraph
     if i < 21:
         G.add_edges(wheel_edges)
@@ -103,25 +103,31 @@ for i in range(26):
         G.add_edges(j)
         all_graphs.append(G)
 
-
-
 trouble_makers =[]
-proof_list =[]
-    
+proof_list =[]  
+k=1
+good_graph_count=0
+vertices= [1,2,3,4,5,6,7,8]
 for G in all_graphs:
-    is_bad=True
-    vertices= [1,2,3,4,5,6,7,8]
+    is_bad = True
     for  i in  range(7):
-        vertices.remove(i+1)
-        H=G.subgraph(vertices)
+        vertices_copy = copy.copy(vertices)  # Make a fresh copy of the vertices list for each iteration
+        
+        vertices_copy.remove(i + 1)
+        H = G.subgraph(vertices_copy)
         count = 0
         for J in non_wrg_seven:
             if H.is_isomorphic(J):
                 count += 1
+                print(k, "isomorphic graph found with edges", H.size() )
+                k += 1
+            else:
+                continue
         if count == 0:
-            if is_bad==True:
-                proof_list.append((G,H))
             is_bad = False
     if is_bad:
         trouble_makers.append(G)
+    else:
+        good_graph_count += 1
+     
     
